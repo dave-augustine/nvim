@@ -297,7 +297,7 @@ end
 -- toggleterm
 require("toggleterm").setup({
     shade_terminals = false,
-    shell = vim.fn.trim(vim.fn.system('which fish')),
+    shell = vim.fn.trim(vim.fn.system('which $SHELL')),
     highlights = {
         StatusLine = { guifg = "#ffffff", guibg = "#0E1018" },
         StatusLineNC = { guifg = "#ffffff", guibg = "#0E1018" }

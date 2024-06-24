@@ -38,7 +38,7 @@ keyset("x", "<leader>y", '"*y :let @+=@*<cr>')
 keyset("n", "<a-x>", "<nop>")
 keyset("n", "<backspace>", "<C-^")
 keyset("n", "cp", "yap<S-}p")
-keyset("n", ";", ":")
+keyset("n", ";", ":", {noremap = true})
 keyset("n", "Q", ":q<cr>")
 keyset("n", "S", ":w<cr>")
 
@@ -102,7 +102,7 @@ keyset("x", "gs", "<Plug>(GrepperOperator)")
 
 local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
-keyset({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
+keyset({ "n", "x", "o" }, "-", ts_repeat_move.repeat_last_move_next)
 keyset({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
 keyset({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
 keyset({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
