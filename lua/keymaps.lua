@@ -49,7 +49,7 @@ keyset("n", "<space>t", ":ToggleTerm size=60 direction=vertical<cr>", { silent =
 keyset("n", "<space><space>", ":ToggleTerm size=60 direction=float<cr>", { silent = true })
 keyset("n", "<leader>t", ":lua require('neogen').generate()<CR>", { silent = true })
 keyset("n", "<leader>u", ":UndotreeToggle<cr>")
-keyset("n", "<leader>e", ":Neoformat<cr>")
+keyset("n", "<leader>e", ":NvimTreeToggle<cr>")
 keyset("n", "<leader>cd", ":cd %:p:h<cr>:pwd<cr>")
 keyset("n", "<leader>cc", ":bdelete<cr>")
 keyset("n", "<leader>cn", ":cnext<cr>")
