@@ -78,6 +78,27 @@ require("lazy").setup({
 	{ "sirver/ultisnips" },
 	{ "junegunn/goyo.vim" },
 	{
+		"nvim-neorg/neorg",
+		build = ":Neorg sync-parsers",
+		dependencies = { "nvim-lua/plenary.nvim", "nvim-neorg/lua-utils.nvim", "pysan3/pathlib.nvim", "nvim-neotest/nvim-nio" },
+		config = function()
+			require("neorg").setup {
+				load = {
+					["core.defaults"] = {}, -- Loads default behaviour
+					["core.concealer"] = {}, -- Adds pretty icons to your documents
+					["core.summary"] = {},
+					["core.dirman"] = { -- Manages Neorg workspaces
+						config = {
+							workspaces = {
+								notes = "~/notes",
+							},
+						},
+					},
+				},
+			}
+		end,
+	},
+	{
 		"nvim-tree/nvim-tree.lua",
 		version = "*",
 		lazy = false,
@@ -85,7 +106,20 @@ require("lazy").setup({
 			"nvim-tree/nvim-web-devicons",
 		},
 		config = function()
-			require("nvim-tree").setup {}
+			require("nvim-tree").setup({
+				sort = {
+					sorter = "case_sensitive",
+				},
+				view = {
+					width = 30,
+				},
+				renderer = {
+					group_empty = true,
+				},
+				filters = {
+					dotfiles = true,
+				},
+			})
 		end,
 	},
 	{ "williamboman/mason.nvim" },
@@ -459,8 +493,8 @@ require("dial.config").augends:register_group({
 		augend.constant.alias.bool, augend.integer.alias.decimal,
 		augend.integer.alias.hex, augend.constant.new({
 		elements = { "and", "or" },
-		word = true,      -- if false, "sand" is incremented into "sor", "doctor" into "doctand", etc.
-		cyclic = true     -- "or" is incremented into "and".
+		word = true, -- if false, "sand" is incremented into "sor", "doctor" into "doctand", etc.
+		cyclic = true -- "or" is incremented into "and".
 	}),
 		augend.constant
 				.new({ elements = { "&&", "||" }, word = false, cyclic = true })
@@ -475,14 +509,14 @@ require("nvim-treesitter.configs").setup({
 	highlight = { enable = true, additional_vim_regex_highlighting = { "latex" } },
 	playground = {
 		enable = true,
-		updatetime = 25,            -- Debounced time for highlighting nodes in the playground from source code
-		persist_queries = false     -- Whether the query persists across vim sessions
+		updatetime = 25,      -- Debounced time for highlighting nodes in the playground from source code
+		persist_queries = false -- Whether the query persists across vim sessions
 	},
 	indent = { enable = true, disable = { "python" } },
 	textobjects = {
 		move = {
 			enable = true,
-			set_jumps = true,       -- whether to set jumps in the jumplist
+			set_jumps = true, -- whether to set jumps in the jumplist
 			goto_next_start = {
 				["]m"] = "@function.outer",
 				["]]"] = { query = "@class.outer", desc = "Next class start" },
@@ -522,9 +556,9 @@ require("nvim-treesitter.configs").setup({
 				["ic"] = "@class.inner"
 			},
 			selection_modes = {
-				["@parameter.outer"] = "v",         -- charwise
-				["@function.outer"] = "V",          -- linewise
-				["@class.outer"] = "<c-v>"          -- blockwise
+				["@parameter.outer"] = "v", -- charwise
+				["@function.outer"] = "V", -- linewise
+				["@class.outer"] = "<c-v>" -- blockwise
 			}
 		}
 	},

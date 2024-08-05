@@ -1,4 +1,5 @@
 {
 	"coc.preferences.formatOnType": true,
+	"prettier.printWidth": 80,
 	"prettier.semi": true
 }

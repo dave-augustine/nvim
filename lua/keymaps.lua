@@ -38,7 +38,7 @@ keyset("x", "<leader>y", '"*y :let @+=@*<cr>')
 keyset("n", "<a-x>", "<nop>")
 keyset("n", "<backspace>", "<C-^")
 keyset("n", "cp", "yap<S-}p")
-keyset("n", ";", ":", {noremap = true})
+keyset("n", ";", ":", { noremap = true })
 keyset("n", "Q", ":q<cr>")
 keyset("n", "S", ":w<cr>")
 
@@ -47,9 +47,9 @@ keyset("n", "S", ":w<cr>")
 keyset("n", "<space>y", ":ToggleTerm size=15<cr>", { silent = true })
 keyset("n", "<space>t", ":ToggleTerm size=60 direction=vertical<cr>", { silent = true })
 keyset("n", "<space><space>", ":ToggleTerm size=60 direction=float<cr>", { silent = true })
-keyset("n", "<leader>t", ":lua require('neogen').generate()<CR>", { silent = true })
-keyset("n", "<leader>u", ":UndotreeToggle<cr>")
-keyset("n", "<leader>e", ":NvimTreeToggle<cr>")
+keyset("n", "<leader>t", ":NvimTreeFocus<cr>", { silent = true })
+keyset("n", "<leader>u", ":UndotreeToggle<cr>", { silent = true })
+keyset("n", "<leader>e", ":NvimTreeToggle<cr>", { silent = true })
 keyset("n", "<leader>cd", ":cd %:p:h<cr>:pwd<cr>")
 keyset("n", "<leader>cc", ":bdelete<cr>")
 keyset("n", "<leader>cn", ":cnext<cr>")
@@ -185,7 +185,7 @@ vim.api.nvim_set_keymap("i", "<TAB>",
 vim.api.nvim_set_keymap("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
 vim.api.nvim_set_keymap("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]],
     opts)
-keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
+keyset("n", "<c-j>", "<Plug>(coc-snippets-expand-jump)", { noremap = true, silent = true })
 keyset("i", "<c-space>", "coc#refresh()", { silent = true, expr = true })
 
 vim.cmd [[
@@ -196,7 +196,7 @@ vim.cmd [[
 ---@diagnostic disable-next-line: redefined-local
 local opts = { silent = true, nowait = true, expr = true }
 keyset("n", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
-keyset("n", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts)
+keyset("n", "<C-b>", 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', opts, { noremap = true, silent = true })
 keyset("i", "<C-f>", 'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(1)<cr>" : "<Right>"', opts)
 keyset("i", "<C-b>", 'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(0)<cr>" : "<Left>"', opts)
 keyset("v", "<C-f>", 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', opts)
@@ -225,3 +225,17 @@ keyset("n", "<space>c", ":<C-u>CocList commands<cr>", opts)
 keyset("n", "<space>o", ":<C-u>CocList outline<cr>", opts)
 keyset("n", "<space>q", ":<C-u>CocList<cr>", opts)
 vim.api.nvim_set_keymap("n", "K", '<CMD>lua _G.show_docs()<CR>', { silent = true })
+
+-- ToggleTerm
+function _G.set_terminal_keymaps()
+    local opts = { buffer = 0 }
+    vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+    vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+    vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+    vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+    vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+    vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+end
+
+vim.cmd('autocmd! TermOpen term://*toggleterm#* lua set_terminal_keymaps()')
+
