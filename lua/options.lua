@@ -35,6 +35,7 @@ vim.opt.backup = false            -- Disables creating backup files
 vim.opt.writebackup = false       -- Disables writing backup files
 vim.opt.updatetime = 300          -- Specifies the time (in milliseconds) to wait for writing changes to disk
 vim.opt.signcolumn = "number"     -- Shows sign column along with line numbers
+vim.g.background = "dark"         -- Sets the background to be a dark background
 
 -- ### Display Settings
 vim.opt.number = true -- Shows line numbers
@@ -74,7 +75,8 @@ vim.g.neoformat_try_formatprg = 1
 vim.g.latexindent_opt = "-m"
 vim.g.coc_enable_locationlist = 0
 vim.g.coc_global_extensions = {
-    "coc-rust-analyzer", "coc-sumneko-lua", "coc-json", "coc-texlab", "coc-pyright" }
+    "coc-rust-analyzer", "coc-clangd", "coc-prettier", "coc-tsserver", "coc-sumneko-lua", "coc-json", "coc-texlab",
+    "coc-pyright" }
 
 
 -- ### Search Settings
@@ -236,4 +238,4 @@ function status_line()
     })
 end
 
-vim.opt.statusline = "%!luaeval('status_line()')"
+-- vim.opt.statusline = "%!luaeval('status_line()')"
