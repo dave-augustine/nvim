@@ -95,9 +95,11 @@ autocmd("CursorHold", {
     desc = "Highlight symbol under cursor on CursorHold"
 })
 
+
 -- vimtex
 vim.g.tex_compiles_successfully = false
 vim.g.term_pdf_vierer_open = false
+vim.g.skip_ts_context_commentstring_module = true
 
 vim.api.nvim_create_augroup("CustomTex", {})
 autocmd("User", {
