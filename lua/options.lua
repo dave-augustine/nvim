@@ -24,7 +24,7 @@ vim.g.mapleader = ","
 -- ### General Settings
 vim.opt.termguicolors = true      -- Enables 24-bit RGB color in the TUI
 vim.opt.clipboard = "unnamedplus" -- Uses the system clipboard for copy/paste
-vim.opt.shell = "$(which $SHELL)" -- Sets the default shell to bash
+vim.opt.shell = vim.trim(vim.fn.system("which $SHELL")) -- Shell Support 
 vim.opt.mouse = "a"               -- Enables mouse support
 vim.opt.scrolloff = 8             -- Keeps 8 lines visible above and below the cursor
 vim.opt.conceallevel = 2          -- Controls the conceal feature for syntax elements
@@ -245,4 +245,3 @@ function status_line()
 end
 
 -- vim.opt.statusline = "%!luaeval('status_line()')"
--- vim.cmd.colorscheme("catppuccin-mocha")

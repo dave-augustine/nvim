@@ -21,7 +21,7 @@ local plugins = {
     require("plugins.solarized"),
     require("plugins.windline"),
     require("plugins.catppuccin"),
-    require("plugins.neorg"),
+    -- require("plugins.neorg"),
     require("plugins.dial"),
     require("plugins.nvim-tree"),
     require("plugins.telescope"),
