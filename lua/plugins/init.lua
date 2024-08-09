@@ -19,7 +19,7 @@ local plugins = {
     require("plugins.goolord"),
     require("plugins.no-setup"),
     require("plugins.solarized"),
-    require("plugins.windline"),
+    require("plugins.feline"),
     require("plugins.catppuccin"),
     require("plugins.neorg"),
     require("plugins.dial"),
