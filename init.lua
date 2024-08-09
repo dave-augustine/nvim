@@ -43,36 +43,6 @@ end
 
 load_plugins()
 
--- Setup Lazy.nvim
---- local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
---- if not vim.loop.fs_stat(lazypath) then
----     vim.fn.system({
----         "git",
----         "clone",
----         "--filter=blob:none",
----         "https://github.com/folke/lazy.nvim.git",
----         "--branch=stable",
----         lazypath,
----     })
---- end
---- vim.opt.rtp:prepend(lazypath)
---- 
---- local plugins = {}
---- 
---- -- Get a list of all files in the plugins directory, except init.lua
---- local plugin_files = vim.fn.globpath(vim.fn.stdpath('config') .. '/lua/plugins', '*.lua', true, true)
---- 
---- for _, plugin_file in ipairs(plugin_files) do
----     local plugin_name = vim.fn.fnamemodify(plugin_file, ':t:r')
----     if plugin_name ~= 'init' then
----         table.insert(plugins, require('plugins.' .. plugin_name))
----     end
---- end
---- 
---- return plugins
-
--- Load plugins using Lazy.nvim
---- require("lazy").setup()
 
 -- Loading Options
 require("options")
