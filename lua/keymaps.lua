@@ -41,6 +41,7 @@ keyset("n", "cp", "yap<S-}p")
 keyset("n", ";", ":", { noremap = true })
 keyset("n", "Q", ":q<cr>")
 keyset("n", "S", ":w<cr>")
+keyset('n', 'W', ':w !sudo tee % > /dev/null <CR>', { noremap = true, silent = true })
 
 
 -- general
