@@ -1,6 +1,6 @@
 return {
 	{
-		"goolord/alpha-nvim", -- Dashboard
+		"goolord/alpha-nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
 			local alpha = require("alpha")
@@ -50,7 +50,7 @@ return {
 			local previewers = require("telescope.previewers")
 			local Job = require("plenary.job")
 
-			local _bad = { ".*%.csv", ".*%.lua" } -- Put all filetypes that slow you down in this array
+			local _bad = { ".*%.csv", ".*%.lua" }
 			local bad_files = function(filepath)
 				for _, v in ipairs(_bad) do
 					if filepath:match(v) then return false end
@@ -132,7 +132,10 @@ return {
 				ensure_installed = { "c", "lua", "vim", "vimdoc", "java", "go", "python", "javascript", "typescript" },
 				auto_install = true,
 				sync_install = false,
-				highlight = { enable = true, additional_vim_regex_highlighting = { "latex" } },
+				highlight = {
+					enable = true,
+					additional_vim_regex_highlighting = { "latex" }
+				},
 				indent = { enable = true },
 			})
 		end
@@ -164,7 +167,6 @@ return {
 		"folke/todo-comments.nvim",
 		cmd = { "TodoTrouble", "TodoTelescope" },
 		opts = {},
-		-- stylua: ignore
 		keys = {
 			{ "]t",         function() require("todo-comments").jump_next() end,              desc = "Next Todo Comment" },
 			{ "[t",         function() require("todo-comments").jump_prev() end,              desc = "Previous Todo Comment" },
@@ -226,7 +228,7 @@ return {
 					override = {
 						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
 						["vim.lsp.util.stylize_markdown"] = true,
-						["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+						["cmp.entry.get_documentation"] = true,
 					},
 				},
 				presets = {
@@ -318,10 +320,9 @@ return {
 
 					map("n", "l", api.node.open.edit, "Open File/Directory")
 					map("n", "h", api.node.navigate.parent_close, "Close Directory")
-					-- map("n", "Y", api.fs.copy.absolute_path, "Copy Absolute Path") -- Example new binding
-					-- map("n", "?", api.tree.toggle_help, "Toggle Help")         -- Example additional binding
+					map("n", "?", api.tree.toggle_help, "Toggle Help")         -- Example additional binding
 				end,
 			})
 		end,
-	}
+	},
 }

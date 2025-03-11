@@ -46,9 +46,6 @@ return {
 		'neovim/nvim-lspconfig',
 		cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
 		event = { 'BufReadPre', 'BufNewFile' },
-		init = function()
-			vim.opt.signcolumn = 'yes'
-		end,
 		config = function()
 			local lsp_defaults = require('lspconfig').util.default_config
 			local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -73,12 +70,13 @@ return {
 					-- vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
 					vim.keymap.set('n', '<C-k>', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
 					vim.keymap.set({ 'n', 'x' }, '<leader>4', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)
-					vim.keymap.set('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+					vim.keymap.set('n', '<C-j>', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
 				end,
 			})
 
 			require('mason-lspconfig').setup({
-				-- automatic_installation = true,
+				-- Disable for NixOS
+				automatic_installation = true,
 				ensure_installed = {},
 				handlers = {
 					function(server_name)

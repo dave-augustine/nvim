@@ -1,39 +1,25 @@
 return {
 	{
 		"folke/tokyonight.nvim",
-		lazy = false,
-		priority = 1000,
-		opts = {},
-		config = function()
-			vim.cmd("colorscheme tokyonight-night")
-		end
+		lazy = true,
+		-- priority = 1000,
 	},
 	{
 		"marko-cerovac/material.nvim",
 		lazy = true,
 		-- priority = 1000,
 		config = function()
-			require("material").setup({
-				lualine_style = 'stealth'
-			})
 			vim.g.material_style = "deep ocean"
-			-- vim.cmd.colorscheme("material")
 		end
 	},
 	{
 		"Mofiqul/dracula.nvim",
 		lazy = true,
-		name = "dracula",
-		config = function()
-			require("dracula").setup({})
-			-- vim.cmd.colorscheme("dracula")
-		end
-
+		-- priority = 1000,
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
 		lazy = true,
-		-- priority = 1000,
 		config = function()
 			require("gruvbox").setup({
 				contrast = "hard",
@@ -85,7 +71,11 @@ return {
 					CocSemVariable = { fg = "", bg = "#0E1018" },
 				}
 			})
-			-- vim.cmd.colorscheme("gruvbox")
 		end
+	},
+	{
+		"christianchiarulli/nvcode-color-schemes.vim",
+		lazy = false,
+		priority = 1000,
 	}
 }

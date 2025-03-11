@@ -1,10 +1,21 @@
-require("lspconfig").lua_ls.setup({
-	cmd = { "lua-language-server" },
-	settings = {
-		Lua = {
-			runtime = { version = "LuaJIT" },
-			diagnostics = { globals = { "vim" } },
-		},
-	},
-})
+-- require("lspconfig").lua_ls.setup({
+-- 	cmd = { "lua-language-server" },
+-- 	settings = {
+-- 		Lua = {
+-- 			runtime = { version = "LuaJIT" },
+-- 			diagnostics = { globals = { "vim" } },
+-- 		},
+-- 	},
+-- })
+--
+-- require'lspconfig'.nil_ls.setup {
+--   settings = {
+--     ['nil'] = {
+--       formatting = {
+--         command = { "nixpkgs-fmt" }
+--       }
+--     }
+--   }
+-- }
+--
 
