@@ -8,6 +8,11 @@
 -- 	},
 -- })
 --
+-- require("lspconfig").jdtls.setup({
+-- 	cmd = { "jdtls" },
+-- })
+
+--
 -- require'lspconfig'.nil_ls.setup {
 --   settings = {
 --     ['nil'] = {
@@ -18,4 +23,3 @@
 --   }
 -- }
 --
-

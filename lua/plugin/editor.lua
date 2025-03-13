@@ -202,7 +202,6 @@ return {
 	{ "tpope/vim-fugitive" },
 	{ "djoshea/vim-autoread" },
 	{ "wellle/targets.vim" },
-	{ "sirver/ultisnips" },
 	{
 		"windwp/nvim-autopairs",
 		config = function()
@@ -243,7 +242,17 @@ return {
 	},
 	{
 		"folke/trouble.nvim",
-		cmd = "Trouble"
+		cmd = "Trouble",
+		config = function()
+			require("trouble").setup({})
+		end,
+		keys = {
+			{
+				"<localleader>xx",
+				"<cmd>Trouble diagnostics toggle<cr>",
+				desc = "Diagnostics (Trouble)",
+			},
+		},
 	},
 	{
 		"stevearc/dressing.nvim",
@@ -320,9 +329,59 @@ return {
 
 					map("n", "l", api.node.open.edit, "Open File/Directory")
 					map("n", "h", api.node.navigate.parent_close, "Close Directory")
-					map("n", "?", api.tree.toggle_help, "Toggle Help")         -- Example additional binding
+					map("n", "?", api.tree.toggle_help, "Toggle Help") -- Example additional binding
 				end,
 			})
 		end,
 	},
+	{
+		"akinsho/toggleterm.nvim",
+		config = function()
+			require("toggleterm").setup({
+				shade_terminals = false,
+				shell = vim.trim(vim.fn.system("which $SHELL")),
+				highlights = {
+					StatusLine = { guifg = "#ffffff", guibg = "#0E1018" },
+					StatusLineNC = { guifg = "#ffffff", guibg = "#0E1018" }
+				}
+			})
+
+			local Terminal = require("toggleterm.terminal").Terminal
+
+			local lg_cmd = "lazygit -w $PWD"
+			if vim.v.servername ~= nil then
+				lg_cmd = string.format(
+					"NVIM_SERVER=%s lazygit -ucf ~/.config/nvim/lazygit.toml -w $PWD",
+					vim.v.servername)
+			end
+
+			vim.env.GIT_EDITOR = "nvr -cc split --remote-wait +'set bufhidden=wipe'"
+
+			local lazygit = Terminal:new({
+				cmd = lg_cmd,
+				count = 5,
+				direction = "float",
+				float_opts = {
+					border = "double",
+					width = function() return vim.o.columns end,
+					height = function() return vim.o.lines end
+				},
+				on_open = function(term)
+					vim.cmd("startinsert!")
+					vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>",
+						{ noremap = true, silent = true })
+				end
+			})
+
+			function Edit(fn, line_number)
+				local edit_cmd = string.format(":e %s", fn)
+				if line_number ~= nil then
+					edit_cmd = string.format(":e +%d %s", line_number, fn)
+				end
+				vim.cmd(edit_cmd)
+			end
+
+			function Lazygit_toggle() lazygit:toggle() end
+		end
+	}
 }
