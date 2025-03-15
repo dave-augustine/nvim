@@ -31,5 +31,3 @@ vim.g.loaded_netrwPlugin = 1
 
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-
-

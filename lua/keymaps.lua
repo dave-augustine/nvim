@@ -15,6 +15,9 @@ keyset("n", "<C-u>", "<C-u>zz")
 keyset("n", "n", "nzzzv")
 keyset("n", "N", "Nzzzv")
 keyset("n", "<space>d", vim.diagnostic.open_float, { silent = true })
+keyset("", "<leader>4", function()
+	require("conform").format({ async = true, lsp_fallback = true })
+end)
 
 -- telescope
 -- keyset("n", "<leader>ff", ":Telescope frecency workspace=CWD theme=ivy layout_config={height=0.4}<cr>")

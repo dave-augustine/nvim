@@ -116,6 +116,7 @@ return {
 		end
 	},
 	-- {
+	-- TODO: Setup Frecency with my Telescope
 	-- 	"nvim-telescope/telescope-frecency.nvim",
 	-- 	dependencies = { "kkharji/sqlite.lua" },
 	-- 	config = function()
@@ -142,11 +143,11 @@ return {
 	},
 	{
 		"theprimeagen/harpoon",
-		lazy = true
+		event = "VeryLazy",
 	},
 	{
 		"mbbill/undotree",
-		lazy = true,
+		event = "VeryLazy",
 		cmd = "UndotreeToggle"
 	},
 	{
@@ -178,7 +179,7 @@ return {
 	},
 	{
 		"MagicDuck/grug-far.nvim",
-		lazy = true,
+		event = "VeryLazy",
 		opts = { headerMaxWidth = 80 },
 		cmd = "GrugFar",
 		keys = {
@@ -204,6 +205,7 @@ return {
 	{ "wellle/targets.vim" },
 	{
 		"windwp/nvim-autopairs",
+		event = "VeryLazy",
 		config = function()
 			require("nvim-autopairs").setup({
 				disable_filetype = { "TelescopePrompt" },
@@ -261,6 +263,7 @@ return {
 	},
 	{
 		"lewis6991/gitsigns.nvim",
+		event = "VeryLazy",
 		config = function()
 			require("gitsigns").setup({
 				signcolumn = false,
@@ -336,6 +339,7 @@ return {
 	},
 	{
 		"akinsho/toggleterm.nvim",
+		event = "VeryLazy",
 		config = function()
 			require("toggleterm").setup({
 				shade_terminals = false,
@@ -382,6 +386,24 @@ return {
 			end
 
 			function Lazygit_toggle() lazygit:toggle() end
+		end
+	},
+	{
+		"numToStr/Comment.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("Comment").setup()
+		end
+	},
+	{
+		"haringsrob/nvim_context_vt",
+		event = "VeryLazy",
+		config = function()
+			require("nvim_context_vt").setup({
+				disable_ft = { "rust", "rs" },
+				disable_virtual_lines = true,
+				min_rows = 8
+			})
 		end
 	}
 }
