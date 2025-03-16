@@ -1,5 +1,23 @@
 return {
 	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		config = function()
+			local configs = require("nvim-treesitter.configs")
+
+			configs.setup({
+				ensure_installed = { "c", "lua", "vim", "vimdoc", "java", "go", "python", "javascript", "typescript" },
+				auto_install = true,
+				sync_install = false,
+				highlight = {
+					enable = true,
+					additional_vim_regex_highlighting = { "latex" }
+				},
+				indent = { enable = true },
+			})
+		end
+	},
+	{
 		"williamboman/mason.nvim",
 		lazy = false,
 		config = true,
@@ -33,10 +51,10 @@ return {
 						ls.expand()
 					end, { silent = true })
 					vim.keymap.set({ "i", "s" }, "<C-J>", function()
-						ls.jump(-1)
+						ls.jump(1)
 					end, { silent = true })
 					vim.keymap.set({ "i", "s" }, "<C-K>", function()
-						ls.jump(1)
+						ls.jump(-1)
 					end, { silent = true })
 
 					vim.keymap.set({ "i", "s" }, "<C-E>", function()

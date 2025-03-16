@@ -17,7 +17,7 @@ function ColorCanvas(color)
 		"NoiceCmdlinePopup", "NoiceCmdlinePopupBorder",
 		"NoiceConfirm", "NoiceConfirmBorder",
 		"NoiceVirtualText", "NoiceMini",
-		"FloatBorder", "Pmenu", "PmenuSel"
+		"FloatBorder", "Pmenu"
 	}
 
 	for _, group in ipairs(highlight_groups) do

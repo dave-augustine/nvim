@@ -124,24 +124,6 @@ return {
 	-- 	end
 	-- },
 	{
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		config = function()
-			local configs = require("nvim-treesitter.configs")
-
-			configs.setup({
-				ensure_installed = { "c", "lua", "vim", "vimdoc", "java", "go", "python", "javascript", "typescript" },
-				auto_install = true,
-				sync_install = false,
-				highlight = {
-					enable = true,
-					additional_vim_regex_highlighting = { "latex" }
-				},
-				indent = { enable = true },
-			})
-		end
-	},
-	{
 		"theprimeagen/harpoon",
 		event = "VeryLazy",
 	},
