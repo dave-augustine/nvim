@@ -33,7 +33,7 @@ keyset("n", "<leader>sr", ":%s/<C-r><C-w>//g<Left><Left>")
 -- toggle term
 keyset("n", "<space>y", ":ToggleTerm size=15<cr>", { silent = true })
 keyset("n", "<space>t", ":ToggleTerm size=60 direction=vertical<cr>", { silent = true })
-keyset("n", "<space><space>", ":ToggleTerm size=60 direction=float<cr>", { silent = true })
+keyset("n", "<space>o", ":ToggleTerm size=60 direction=float<cr>", { silent = true })
 keyset("n", "<localleader>1", ":ToggleTerm 1 size=60 direction=float<cr>", { silent = true })
 keyset("n", "<localleader>2", ":ToggleTerm 2 size=60 direction=float<cr>", { silent = true })
 
@@ -43,8 +43,8 @@ keyset("n", "<localleader>2", ":ToggleTerm 2 size=60 direction=float<cr>", { sil
 keyset("n", "<leader>u", ":UndotreeToggle<cr>", { silent = true })
 
 -- movement
-keyset("v", "J", ":m '>+1<cr>gv=gv")
-keyset("v", "K", ":m '<-2<cr>gv=gv")
+keyset("v", "J", ":m '>+1<cr>gv=gv", { silent = true })
+keyset("v", "K", ":m '<-2<cr>gv=gv", { silent = true })
 keyset("n", "<space>h", "<c-w>h")
 keyset("n", "<space>j", "<c-w>j")
 keyset("n", "<space>k", "<c-w>k")

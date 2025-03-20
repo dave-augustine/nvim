@@ -42,4 +42,4 @@ function ColorCanvas(color)
 	})
 end
 
-ColorCanvas("nvcode")
+ColorCanvas("dracula")
