@@ -20,12 +20,11 @@ return {
 			}
 
 			dashboard.section.buttons.val = {
-				dashboard.button("f", "󰈞  Find file",
-					":Telescope find_files hidden=true no_ignore=true<CR>"),
+				dashboard.button("f", "󰈞  Find file", function() Snacks.picker.smart() end),
 				dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
 				dashboard.button("c", "  Configuration", ":e ~/.config/nvim <CR>"),
 				dashboard.button("u", "  Update plugins", ":Lazy sync<CR>"),
-				dashboard.button("r", "  Recently opened files", "<cmd>Telescope oldfiles<CR>"),
+				dashboard.button("r", "  Recently opened files", function() Snacks.picker.recent() end),
 				dashboard.button("l", "  Open last session", "<cmd>RestoreSession<CR>"),
 				dashboard.button("q", "  Quit", ":qa<CR>")
 			}
@@ -43,91 +42,9 @@ return {
 		end
 	},
 	{
-		"nvim-telescope/telescope.nvim",
-		dependencies = { "nvim-lua/plenary.nvim", "nvim-lua/popup.nvim" },
-		config = function()
-			local actions = require("telescope.actions")
-			local previewers = require("telescope.previewers")
-			local Job = require("plenary.job")
-
-			local _bad = { ".*%.csv", ".*%.lua" }
-			local bad_files = function(filepath)
-				for _, v in ipairs(_bad) do
-					if filepath:match(v) then return false end
-				end
-				return true
-			end
-
-			local new_maker = function(filepath, bufnr, opts)
-				opts = opts or {}
-				if opts.use_ft_detect == nil then opts.use_ft_detect = true end
-				opts.use_ft_detect = opts.use_ft_detect == false and false or bad_files(filepath)
-				filepath = vim.fn.expand(filepath)
-
-				vim.loop.fs_stat(filepath, function(_, stat)
-					if not stat then return end
-					if stat.size > 100000 then return end
-				end)
-
-				Job:new({
-					command = "file",
-					args = { "--mime-type", "-b", filepath },
-					on_exit = function(j)
-						local mime_type = vim.split(j:result()[1], "/")[1]
-						if mime_type == "text" then
-							previewers.buffer_previewer_maker(filepath, bufnr, opts)
-						else
-							vim.schedule(function()
-								vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, { "BINARY" })
-							end)
-						end
-					end
-				}):sync()
-			end
-
-			require("telescope").setup({
-				defaults = {
-					file_sorter = require("telescope.sorters").get_fzy_sorter,
-					buffer_previewer_maker = new_maker,
-					layout_config = { prompt_position = "bottom" },
-					mappings = {
-						i = {
-							["<Esc>"] = actions.close,
-							["<C-q>"] = actions.send_to_qflist,
-							["<C-k>"] = actions.move_selection_previous,
-							["<C-j>"] = actions.move_selection_next,
-							["<C-d>"] = actions.delete_buffer + actions.move_to_top
-						}
-					}
-				},
-				extensions = {
-					frecency = {
-						db_safe_mode = true
-					}
-				},
-				pickers = {
-					find_files = { theme = "ivy", layout_config = { height = 0.4 } },
-					git_files = { theme = "ivy", layout_config = { height = 0.4 } },
-					live_grep = { theme = "ivy", layout_config = { height = 0.4 } },
-					buffers = { theme = "ivy", layout_config = { height = 0.4 } },
-					keymaps = { theme = "ivy", layout_config = { height = 0.4 } },
-					file_browser = { theme = "ivy", layout_config = { height = 0.4 } },
-					treesitter = { theme = "ivy", layout_config = { height = 0.4 } },
-					help_tags = { theme = "ivy", layout_config = { height = 0.5 } },
-					man_pages = { sections = { "1", "2", "3" }, theme = "ivy", layout_config = { height = 0.4 }
-					}
-				}
-			})
-		end
-	},
-	{
 		"theprimeagen/harpoon",
 		event = "VeryLazy",
-	},
-	{
-		"mbbill/undotree",
-		event = "VeryLazy",
-		cmd = "UndotreeToggle"
+		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 	{
 		"folke/flash.nvim",
@@ -145,15 +62,11 @@ return {
 	},
 	{
 		"folke/todo-comments.nvim",
-		cmd = { "TodoTrouble", "TodoTelescope" },
 		opts = {},
 		keys = {
-			{ "]t",         function() require("todo-comments").jump_next() end,              desc = "Next Todo Comment" },
-			{ "[t",         function() require("todo-comments").jump_prev() end,              desc = "Previous Todo Comment" },
-			{ "<leader>xt", "<cmd>Trouble todo toggle<cr>",                                   desc = "Todo (Trouble)" },
-			{ "<leader>xT", "<cmd>Trouble todo toggle filter = {tag = {TODO,FIX,FIXME}}<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
-			{ "<leader>st", "<cmd>TodoTelescope<cr>",                                         desc = "Todo" },
-			{ "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",                 desc = "Todo/Fix/Fixme" },
+			{ "]t",              function() require("todo-comments").jump_next() end, desc = "Next Todo Comment" },
+			{ "[t",              function() require("todo-comments").jump_prev() end, desc = "Previous Todo Comment" },
+			{ "<localleader>st", function() Snacks.picker.todo_comments() end,        desc = "Todo Picker" }
 		},
 	},
 	{
@@ -187,7 +100,6 @@ return {
 		event = "VeryLazy",
 		config = function()
 			require("nvim-autopairs").setup({
-				disable_filetype = { "TelescopePrompt" },
 				map_cr = false,
 				disable_in_visualblock = true,
 				check_ts = true
@@ -326,57 +238,6 @@ return {
 		end,
 	},
 	{
-		"akinsho/toggleterm.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("toggleterm").setup({
-				shade_terminals = false,
-				shell = vim.trim(vim.fn.system("which $SHELL")),
-				highlights = {
-					StatusLine = { guifg = "#ffffff", guibg = "#0E1018" },
-					StatusLineNC = { guifg = "#ffffff", guibg = "#0E1018" }
-				}
-			})
-
-			local Terminal = require("toggleterm.terminal").Terminal
-
-			local lg_cmd = "lazygit -w $PWD"
-			if vim.v.servername ~= nil then
-				lg_cmd = string.format(
-					"NVIM_SERVER=%s lazygit -ucf ~/.config/nvim/lazygit.toml -w $PWD",
-					vim.v.servername)
-			end
-
-			vim.env.GIT_EDITOR = "nvr -cc split --remote-wait +'set bufhidden=wipe'"
-
-			local lazygit = Terminal:new({
-				cmd = lg_cmd,
-				count = 5,
-				direction = "float",
-				float_opts = {
-					border = "double",
-					width = function() return vim.o.columns end,
-					height = function() return vim.o.lines end
-				},
-				on_open = function(term)
-					vim.cmd("startinsert!")
-					vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>",
-						{ noremap = true, silent = true })
-				end
-			})
-
-			function Edit(fn, line_number)
-				local edit_cmd = string.format(":e %s", fn)
-				if line_number ~= nil then
-					edit_cmd = string.format(":e +%d %s", line_number, fn)
-				end
-				vim.cmd(edit_cmd)
-			end
-
-			function Lazygit_toggle() lazygit:toggle() end
-		end
-	},
-	{
 		"numToStr/Comment.nvim",
 		event = "VeryLazy",
 		dependencies = {
@@ -443,6 +304,26 @@ return {
 				inactive_winbar = {},
 				extensions = {}
 			}
+		end
+	},
+	{
+		"folke/snacks.nvim",
+		priority = 1000,
+		lazy = false,
+		opts = {
+			lazygit = {},
+			terminal = {},
+			picker = {},
+		}
+	},
+	{
+		"lervag/vimtex",
+		init = function()
+			vim.g.vimtex_view_method = "zathura"
+			vim.g.vimtex_quickfix_mode = 0
+			vim.g.vimtex_compiler_latexmk_engines = { ["_"] = "-lualatex -shell-escape" }
+			vim.g.vimtex_indent_on_ampersands = 0
+			vim.g.matchup_override_vimtex = 1
 		end
 	}
 }

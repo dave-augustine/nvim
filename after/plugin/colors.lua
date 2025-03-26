@@ -8,15 +8,11 @@ function ColorCanvas(color)
 		"NvimTreeNormal", "NvimTreeNormalNC",
 		"StatusLine", "StatusLineNC",
 		"SignColumn", "WinSeparator",
-		"TelescopeNormal", "TelescopeBorder",
-		"TelescopePromptNormal", "TelescopePromptBorder",
-		"TelescopeResultsNormal", "TelescopeResultsBorder",
-		"TelescopePreviewNormal", "TelescopePreviewBorder",
-		"TelescopePromptTitle", "TelescopeResultsTitle", "TelescopePreviewTitle",
 		"NoicePopup", "NoicePopupBorder",
 		"NoiceCmdlinePopup", "NoiceCmdlinePopupBorder",
 		"NoiceConfirm", "NoiceConfirmBorder",
-		"NoiceVirtualText", "NoiceMini",
+		"NoiceVirtualText", "NoiceMini", "NotifyINFOBorder", "NotifyWARNBorder", "NotifyERRORBorder",
+		"TreesitterContext", "TreesitterContextLineNumber",
 		"FloatBorder", "FloatShadow", "FloatShadowThrough", "Pmenu" }
 
 	local diagnostic_groups = {
@@ -34,6 +30,8 @@ function ColorCanvas(color)
 
 
 	vim.api.nvim_set_hl(0, "NotifyBackground", { bg = "#000000" })
+	vim.api.nvim_set_hl(0, "TreesitterContextBottom", { underline = true, sp = "#808080" })
+	vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", { underline = true, sp = "#808080" })
 end
 
 ColorCanvas("rose-pine")

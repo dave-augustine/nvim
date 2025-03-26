@@ -130,7 +130,7 @@ return {
 
 			require("mason-lspconfig").setup({
 				-- Disable for NixOS
-				-- automatic_installation = true,
+				automatic_installation = true,
 				ensure_installed = {},
 				handlers = {
 					function(server_name)
@@ -146,6 +146,12 @@ return {
 		"stevearc/conform.nvim",
 		event = "VeryLazy",
 		opts = {
+			formatters_by_ft = {
+				javascript = { "prettier" },
+				typescript = { "prettier" },
+				javascriptreact = { "prettier" },
+				typescriptreact = { "prettier" },
+			},
 			format_on_save = {
 				timeout_ms = 500,
 				lsp_fallback = true
