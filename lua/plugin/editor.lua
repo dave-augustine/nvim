@@ -100,6 +100,11 @@ return {
 						}
 					}
 				},
+				extensions = {
+					frecency = {
+						db_safe_mode = true
+					}
+				},
 				pickers = {
 					find_files = { theme = "ivy", layout_config = { height = 0.4 } },
 					git_files = { theme = "ivy", layout_config = { height = 0.4 } },
@@ -115,14 +120,6 @@ return {
 			})
 		end
 	},
-	-- {
-	-- TODO: Setup Frecency with my Telescope
-	-- 	"nvim-telescope/telescope-frecency.nvim",
-	-- 	dependencies = { "kkharji/sqlite.lua" },
-	-- 	config = function()
-	-- 		require("telescope").load_extension("frecency")
-	-- 	end
-	-- },
 	{
 		"theprimeagen/harpoon",
 		event = "VeryLazy",
@@ -294,7 +291,16 @@ return {
 				},
 				disable_netrw = true,
 				view = {
-					width = 30,
+					width = 50,
+				},
+				update_focused_file = {
+					enable = true,
+					update_root = false
+				},
+				actions = {
+					open_file = {
+						quit_on_open = true
+					}
 				},
 				renderer = {
 					group_empty = true,
@@ -373,8 +379,13 @@ return {
 	{
 		"numToStr/Comment.nvim",
 		event = "VeryLazy",
+		dependencies = {
+			"JoosepAlviste/nvim-ts-context-commentstring"
+		},
 		config = function()
-			require("Comment").setup()
+			require("Comment").setup {
+				pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+			}
 		end
 	},
 	{
@@ -386,6 +397,52 @@ return {
 				disable_virtual_lines = true,
 				min_rows = 8
 			})
+		end
+	},
+	{
+		'nvim-lualine/lualine.nvim',
+		config = function()
+			require('lualine').setup {
+				options = {
+					icons_enabled = true,
+					theme = 'auto',
+					component_separators = { left = '', right = '' },
+					section_separators = { left = '', right = '' },
+					disabled_filetypes = {
+						statusline = {},
+						winbar = {},
+					},
+					ignore_focus = {},
+					always_divide_middle = true,
+					always_show_tabline = true,
+					globalstatus = true,
+					refresh = {
+						statusline = 100,
+						tabline = 100,
+						winbar = 100,
+					}
+				},
+				sections = {
+					lualine_a = { 'mode' },
+					lualine_b = { 'branch', 'diff', 'diagnostics' },
+					lualine_c = { 'filename' },
+					lualine_x = { 'encoding', 'fileformat', 'filetype' },
+					lualine_y = { 'progress' },
+					lualine_z = { 'location' }
+				},
+				inactive_sections = {
+					lualine_a = {},
+					lualine_b = {},
+					lualine_c = { 'filename' },
+					lualine_x = { 'location' },
+					lualine_y = {},
+					lualine_z = {}
+				},
+				tabline = {},
+				winbar = {},
+				inactive_winbar = {},
+				extensions = {}
+			}
 		end
 	}
 }

@@ -17,29 +17,23 @@ function ColorCanvas(color)
 		"NoiceCmdlinePopup", "NoiceCmdlinePopupBorder",
 		"NoiceConfirm", "NoiceConfirmBorder",
 		"NoiceVirtualText", "NoiceMini",
-		"FloatBorder", "Pmenu"
+		"FloatBorder", "FloatShadow", "FloatShadowThrough", "Pmenu" }
+
+	local diagnostic_groups = {
+		"DiagnosticVirtualTextError", "DiagnosticVirtualTextWarn",
+		"DiagnosticVirtualTextInfo", "DiagnosticVirtualTextHint", "DiagnosticVirtualTextOk"
 	}
+
+	for _, group in ipairs(diagnostic_groups) do
+		vim.cmd("highlight " .. group .. " guibg=NONE")
+	end
 
 	for _, group in ipairs(highlight_groups) do
 		vim.api.nvim_set_hl(0, group, { bg = "none" })
 	end
 
-	vim.opt.termguicolors = true
-	vim.cmd([[highlight Normal guibg=None ctermbg=None]])
 
-	vim.api.nvim_set_hl(0, "FloatShadow", { bg = "none" })
-	vim.api.nvim_set_hl(0, "FloatShadowThrough", { bg = "none" })
 	vim.api.nvim_set_hl(0, "NotifyBackground", { bg = "#000000" })
-
-
-	vim.api.nvim_create_autocmd("ColorScheme", {
-		pattern = "*",
-		callback = function()
-			for _, group in ipairs(highlight_groups) do
-				vim.api.nvim_set_hl(0, group, { bg = "none" })
-			end
-		end,
-	})
 end
 
-ColorCanvas("dracula")
+ColorCanvas("rose-pine")

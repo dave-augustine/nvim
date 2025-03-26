@@ -15,3 +15,6 @@ This is just my slim neovim configuration with fast and efficient plugins optimi
 - **Tree-sitter** 🌲 – Better syntax highlighting and code parsing
 - **Git Integration** 🛠 – `gitsigns` for easy version control
 - **Keybindings** ⌨️ – Intuitive and efficient mappings
+
+## Credits
+-- A lot of it was inspired by @SeniorMars

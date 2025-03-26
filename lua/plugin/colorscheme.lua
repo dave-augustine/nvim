@@ -2,12 +2,10 @@ return {
 	{
 		"folke/tokyonight.nvim",
 		lazy = true,
-		-- priority = 1000,
 	},
 	{
 		"marko-cerovac/material.nvim",
 		lazy = true,
-		-- priority = 1000,
 		config = function()
 			vim.g.material_style = "deep ocean"
 		end
@@ -15,7 +13,6 @@ return {
 	{
 		"Mofiqul/dracula.nvim",
 		lazy = true,
-		-- priority = 1000,
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
@@ -75,7 +72,11 @@ return {
 	},
 	{
 		"christianchiarulli/nvcode-color-schemes.vim",
-		lazy = false,
+		lazy = true,
+	},
+	{
+		"rose-pine/neovim",
+		lazy = true,
 		priority = 1000,
 	}
 }
