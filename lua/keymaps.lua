@@ -18,8 +18,8 @@ keyset("n", "<space>d", vim.diagnostic.open_float, { silent = true })
 keyset("", "<leader>4", function()
 	require("conform").format({ async = true, lsp_fallback = true })
 end)
-keyset("n", "<C-i>", "<C-a>", { noremap = true, silent = true })
-keyset("v", "<C-i>", "g<C-a>", { noremap = true, silent = true })
+keyset("n", "<]a>", "<C-a>", { noremap = true, silent = true })
+keyset("v", "<]a>", "g<C-a>", { noremap = true, silent = true })
 keyset("n", "<leader>sr", ":%s/<C-r><C-w>//g<Left><Left>")
 
 -- snacks
@@ -64,3 +64,4 @@ keyset("n", "<leader>ga", ":Git add %:p<cr><cr>", { silent = true })
 keyset("n", "<leader>ge", ":Gedit<cr>", { silent = true })
 keyset("n", "<leader>gw", ":Gwrite<cr>", { silent = true })
 keyset("n", "<leader>gf", ":Commits<cr>", { silent = true })
+

@@ -2,9 +2,9 @@ return {
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter-context"
-		},
+		-- dependencies = {
+		-- 	"nvim-treesitter/nvim-treesitter-context"
+		-- },
 		config = function()
 			local configs = require("nvim-treesitter.configs")
 
@@ -34,7 +34,6 @@ return {
 			{ "williamboman/mason-lspconfig.nvim" },
 			{ "hrsh7th/cmp-buffer" },
 			{ "hrsh7th/cmp-path" },
-			{ "hrsh7th/cmp-cmdline" },
 			{
 				"L3MON4D3/LuaSnip",
 				build = "make install_jsregexp",
@@ -77,7 +76,17 @@ return {
 					{ name = "nvim_lsp" },
 					{ name = "path" },
 					{ name = "buffer" },
-					{ name = "cmdline" },
+				},
+				sorting = {
+					comparators = {
+						cmp.config.compare.offset,
+						cmp.config.compare.exact,
+						cmp.config.compare.recently_used,
+						cmp.config.compare.kind,
+						cmp.config.compare.sort_text,
+						cmp.config.compare.length,
+						cmp.config.compare.order,
+					},
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-Space>"] = cmp.mapping.complete({ silent = true }),
@@ -140,6 +149,18 @@ return {
 					end,
 				},
 			})
+
+			require("lspconfig").eslint.setup({
+				on_attach = function(client, bufnr)
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						buffer = bufnr,
+						command = "EslintFixAll",
+					})
+				end,
+				settings = {
+					workingDirectory = { mode = "auto" },
+				},
+			})
 		end,
 	},
 	{
@@ -159,3 +180,4 @@ return {
 		},
 	},
 }
+

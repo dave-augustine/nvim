@@ -47,20 +47,6 @@ return {
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 	{
-		"folke/flash.nvim",
-		event = "VeryLazy",
-		vscode = true,
-		---@type Flash.Config
-		opts = {},
-		-- stylua: ignore
-		keys = {
-			{ "<c-/>", mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
-			{ "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
-			{ "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-			{ "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
-		},
-	},
-	{
 		"folke/todo-comments.nvim",
 		opts = {},
 		keys = {
@@ -93,6 +79,7 @@ return {
 		},
 	},
 	{ "tpope/vim-fugitive" },
+	{ "tpope/vim-abolish" },
 	{ "djoshea/vim-autoread" },
 	{ "wellle/targets.vim" },
 	{
@@ -287,7 +274,11 @@ return {
 					lualine_a = { 'mode' },
 					lualine_b = { 'branch', 'diff', 'diagnostics' },
 					lualine_c = { 'filename' },
-					lualine_x = { 'encoding', 'fileformat', 'filetype' },
+					lualine_x = { {
+						require("noice").api.statusline.mode.get,
+						cond = require("noice").api.statusline.mode.has,
+						color = { fg = "#ff9e64" },
+					}, 'encoding', 'fileformat', 'filetype' },
 					lualine_y = { 'progress' },
 					lualine_z = { 'location' }
 				},
