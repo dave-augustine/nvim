@@ -217,6 +217,23 @@ return {
 
 					api.config.mappings.default_on_attach(bufnr)
 
+					map("n", "s", function()
+						local file = api.tree.get_node_under_cursor().absolute_path
+						local zathura_installed = os.execute("command -v zathura > /dev/null 2>&1") == 0
+
+						if file:match("%.pdf$") then
+							if zathura_installed then
+								os.execute("zathura \"" .. file .. "\" > /dev/null 2>&1 &")
+							else
+								api.node.open.edit()
+							end
+						else
+							api.node.open.edit()
+						end
+					end, "Open file or PDF with Zathura (or default editor if not available)")
+
+
+
 					map("n", "l", api.node.open.edit, "Open File/Directory")
 					map("n", "h", api.node.navigate.parent_close, "Close Directory")
 					map("n", "?", api.tree.toggle_help, "Toggle Help") -- Example additional binding
