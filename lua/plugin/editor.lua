@@ -117,8 +117,18 @@ return {
 					inc_rename = false,
 					lsp_doc_border = false,
 				},
+				routes = {
+					{
+						filter = {
+							event = "lsp",
+							kind = "progress",
+							find = "jdtls",
+						},
+						opts = { skip = true },
+					},
+				},
 			})
-		end
+		end,
 	},
 	{
 		"folke/trouble.nvim",
