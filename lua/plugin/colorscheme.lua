@@ -58,7 +58,7 @@ return {
 					GruvboxBlueSign = { fg = "#83a598", bg = "" },
 					WilderMenu = { fg = "#ebdbb2", bg = "" },
 					WilderAccent = { fg = "#f4468f", bg = "" },
-					-- coc semantic token
+					-- coc self:mantic token
 					CocSemStruct = { link = "GruvboxYellow" },
 					CocSemKeyword = { fg = "", bg = "#0E1018" },
 					CocSemEnumMember = { fg = "", bg = "#0E1018" },
@@ -78,5 +78,14 @@ return {
 		"rose-pine/neovim",
 		lazy = true,
 		priority = 1000,
+	},
+	{
+		"loctvl842/monokai-pro.nvim",
+		config = function()
+			require("monokai-pro").setup({
+				transparent_background = true,
+				filter = "octagon"
+			})
+		end
 	}
 }

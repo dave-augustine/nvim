@@ -5,7 +5,7 @@ function ColorCanvas(color)
 
 	local highlight_groups = {
 		"Normal", "NormalFloat", "NormalNC",
-		"NvimTreeNormal", "NvimTreeNormalNC",
+		"NvimTreeNormal", "NvimTreeNormalNC", "NvimTreeEndOfBuffer",
 		"StatusLine", "StatusLineNC",
 		"SignColumn", "WinSeparator",
 		"NoicePopup", "NoicePopupBorder",
@@ -34,4 +34,4 @@ function ColorCanvas(color)
 	vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", { underline = true, sp = "#808080" })
 end
 
-ColorCanvas("rose-pine")
+ColorCanvas("monokai-pro")
