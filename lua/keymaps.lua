@@ -23,12 +23,15 @@ keyset("v", "<]a>", "g<C-a>", { noremap = true, silent = true })
 keyset("n", "<leader>sr", ":%s/<C-r><C-w>//g<Left><Left>")
 
 -- snacks
-keyset("n", "<leader>ff", function() Snacks.picker.smart() end, { silent = true })
+keyset("n", "<leader>ff", function() Snacks.picker.files({ hidden = true }) end, { silent = true })
 keyset("n", "<leader>fk", function() Snacks.picker.keymaps() end, { silent = true })
 keyset("n", "<leader>fl", function() Snacks.picker.grep() end, { silent = true })
-keyset("n", "<leader>fg", function() Snacks.picker.git_files() end, { silent = true })
+keyset("n", "<leader>fm", function() Snacks.picker.man() end, { silent = true })
 keyset("n", "<leader>sm", function() Snacks.picker.marks() end, { silent = true })
 keyset("n", "<leader>fh", function() Snacks.picker.help() end, { silent = true })
+keyset("n", "<leader>fz", function() Snacks.picker.zoxide() end, { silent = true })
+keyset("n", "<leader>fd", function() Snacks.picker.lsp_definitions() end, { silent = true })
+keyset("n", "<leader>fi", function() Snacks.picker.lsp_implementations() end, { silent = true })
 keyset("t", "jk", "<C-\\><C-n>", { noremap = true, silent = true })
 
 -- toggle term
@@ -54,14 +57,12 @@ keyset("n", "j", "(v:count ? 'j' : 'gj')", { expr = true })
 keyset("n", "k", "(v:count ? 'k' : 'gk')", { expr = true })
 
 -- Git
+keyset("n", "<leader>fg", function() Snacks.picker.git_files() end, { silent = true })
 keyset("n", "<leader>gg", function() Snacks.lazygit.open() end, { silent = true })
 keyset("n", "<leader>gl", function() Snacks.picker.git_log() end, { silent = true })
 keyset("n", "<leader>gL", function() Snacks.picker.git_log_file() end, { silent = true })
-keyset("n", "<leader>gd", function() Snacks.picker.git_diff() end, { silent = true })
 keyset("n", "<leader>gs", ":Git status<cr>", { silent = true })
 keyset("n", "<leader>ga", ":Git add %:p<cr><cr>", { silent = true })
--- keyset("n", "<leader>gd", ":Gdiff<cr>", { silent = true })
+keyset("n", "<leader>gd", ":Gdiff<cr>", { silent = true })
 keyset("n", "<leader>ge", ":Gedit<cr>", { silent = true })
 keyset("n", "<leader>gw", ":Gwrite<cr>", { silent = true })
-keyset("n", "<leader>gf", ":Commits<cr>", { silent = true })
-

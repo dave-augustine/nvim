@@ -78,6 +78,18 @@ return {
 		"rose-pine/neovim",
 		lazy = true,
 		priority = 1000,
+		config = function()
+			require('rose-pine').setup({
+				variant = 'auto',
+				dark_variant = 'moon',
+				styles = {
+					bold = true,
+					italic = true
+				}
+
+			})
+		end
+
 	},
 	{
 		"loctvl842/monokai-pro.nvim",

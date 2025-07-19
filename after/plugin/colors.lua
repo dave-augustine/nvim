@@ -34,4 +34,4 @@ function ColorCanvas(color)
 	vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", { underline = true, sp = "#808080" })
 end
 
-ColorCanvas("monokai-pro")
+ColorCanvas("material")

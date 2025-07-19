@@ -125,8 +125,23 @@ return {
 				callback = function(event)
 					local opts = { buffer = event.buf }
 
+					local function goto_definition_vsplit()
+						-- Save the current window
+						local current_win = vim.api.nvim_get_current_win()
+						-- Open a vertical split
+						vim.cmd('vsplit')
+						-- Get the new window
+						local new_win = vim.api.nvim_get_current_win()
+						-- Perform the LSP go-to-definition
+						vim.lsp.buf.definition()
+						-- Ensure focus stays in the new window (optional)
+						vim.api.nvim_set_current_win(new_win)
+					end
+
 					vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
 					vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
+					vim.keymap.set('n', 'gvd', goto_definition_vsplit,
+						{ noremap = true, silent = true, desc = 'Go to definition in vertical split' })
 					vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
 					vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
 					vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
@@ -180,4 +195,3 @@ return {
 		},
 	},
 }
-
