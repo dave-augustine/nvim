@@ -99,5 +99,8 @@ return {
 				filter = "octagon"
 			})
 		end
+	},
+	{
+		"GrzegorzSzczepanek/cyberdyne.nvim",
 	}
 }

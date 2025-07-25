@@ -132,9 +132,20 @@ return {
 	},
 	{
 		"folke/trouble.nvim",
+		lazy = false,
 		cmd = "Trouble",
 		config = function()
 			require("trouble").setup({})
+			vim.diagnostic.config({
+				virtual_text = {
+					-- source = "always",  -- Or "if_many"
+					prefix = '●', -- Could be '■', '▎', 'x'
+				},
+				severity_sort = true,
+				float = {
+					source = true
+				},
+			})
 		end,
 		keys = {
 			{
