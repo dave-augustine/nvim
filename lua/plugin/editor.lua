@@ -86,11 +86,21 @@ return {
 		"windwp/nvim-autopairs",
 		event = "VeryLazy",
 		config = function()
-			require("nvim-autopairs").setup({
+			local autopairs = require("nvim-autopairs")
+			autopairs.setup({
 				map_cr = false,
 				disable_in_visualblock = true,
 				check_ts = true
 			})
+			local rule = require("nvim-autopairs.rule")
+			local cond = require("nvim-autopairs.conds")
+
+			autopairs.add_rules({
+				rule("$", "$", { "tex", "latex", "md" }):with_cr(cond.none())
+			})
+
+			autopairs.get_rules("`")[1].not_filetypes = { "tex", "latex" }
+			autopairs.get_rules("'")[1].not_filetypes = { "tex", "latex" }
 		end
 	},
 	{ "tpope/vim-surround" },
@@ -145,6 +155,20 @@ return {
 				float = {
 					source = true
 				},
+			})
+
+			-- Automatically open Trouble diagnostics when opening tex/latex files
+			vim.api.nvim_create_autocmd("BufEnter", {
+				pattern = { "*.tex", "*.latex" },
+				callback = function()
+					-- Wait a bit for LSP/diagnostics to load
+					vim.defer_fn(function()
+						local diagnostics = vim.diagnostic.get(0)
+						if #diagnostics > 0 then
+							require("trouble").open("diagnostics")
+						end
+					end, 500)
+				end,
 			})
 		end,
 		keys = {
@@ -349,7 +373,7 @@ return {
 		"lervag/vimtex",
 		init = function()
 			vim.g.vimtex_view_method = "zathura"
-			vim.g.vimtex_quickfix_mode = 0
+			vim.g.vimtex_quickfix_mode = 2 -- Auto-open quickfix on errors
 			vim.g.vimtex_compiler_latexmk_engines = { ["_"] = "-lualatex -shell-escape" }
 			vim.g.vimtex_indent_on_ampersands = 0
 			vim.g.matchup_override_vimtex = 1

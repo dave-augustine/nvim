@@ -1,0 +1,22 @@
+snippet beg \begin{} ... \end{} block
+	\\begin{${1:env}}
+		${0:${VISUAL}}
+	\\end{$1}
+
+snippet dm Display math \[...\]
+	\\[${0:${VISUAL}}\\]
+
+snippet ali align* environment
+	\\begin{align*}
+		${0:${VISUAL}}
+	\\end{align*}
+
+snippet cup Union symbol
+	\\cup
+
+snippet cap Intersection symbol
+	\\cap
+
+snippet pow x with superscript
+	${1:}^{${2:${VISUAL}}}
+

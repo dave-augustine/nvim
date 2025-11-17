@@ -102,5 +102,10 @@ return {
 	},
 	{
 		"GrzegorzSzczepanek/cyberdyne.nvim",
+	},
+	{
+		"soroushsrd/glacier.vim",
+		lazy = true,
+		priority = 1000,
 	}
 }

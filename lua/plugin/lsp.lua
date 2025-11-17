@@ -14,9 +14,13 @@ return {
 				sync_install = false,
 				highlight = {
 					enable = true,
-					additional_vim_regex_highlighting = { "latex" }
+					disable = { "latex", "tex" },
+					additional_vim_regex_highlighting = { "latex", "tex" }
 				},
-				indent = { enable = true },
+				indent = {
+					enable = true,
+					disable = { "latex", "tex" }
+				},
 			})
 		end
 	},
@@ -44,10 +48,66 @@ return {
 				},
 				config = function()
 					local ls = require("luasnip")
+					local types = require("luasnip.util.types")
 
 					require("luasnip.loaders.from_vscode").lazy_load()
 					require("luasnip.loaders.from_snipmate").lazy_load()
 					require("luasnip.loaders.from_lua").lazy_load()
+
+					ls.config.set_config({
+						history = true,
+						updateevents = "TextChanged,TextChangedI",
+						enable_autosnippets = true,
+						ext_opts = {
+							[types.choiceNode] = {
+								active = {
+									virt_text = { { "●", "Comment" } },
+								},
+							},
+						},
+					})
+
+					local function expand_snippet_or_space()
+						if ls.expand_or_jumpable() then
+							ls.expand_or_jump()
+							return
+						end
+
+						local line = vim.api.nvim_get_current_line()
+						local col = vim.api.nvim_win_get_cursor(0)[2]
+						local before_cursor = line:sub(1, col)
+
+						local ft = vim.bo.filetype
+						if ft == "" then
+							vim.api.nvim_feedkeys(" ", "n", false)
+							return
+						end
+
+						local snippets = ls.get_snippets(ft) or {}
+						for _, snippet in ipairs(snippets) do
+							if snippet.trigger then
+								local trigger = snippet.trigger
+								if before_cursor:match(vim.pesc(trigger) .. "$") then
+									vim.api.nvim_feedkeys(
+										vim.api.nvim_replace_termcodes("<Tab>", true, false, true),
+										"n",
+										false
+									)
+									return
+								end
+							end
+						end
+
+						vim.api.nvim_feedkeys(" ", "n", false)
+					end
+
+					vim.api.nvim_create_autocmd("FileType", {
+						pattern = { "tex", "latex" },
+						callback = function()
+							vim.keymap.set("i", "<Space>", expand_snippet_or_space, { buffer = true, silent = true })
+						end,
+					})
+
 
 					vim.keymap.set({ "i" }, "<C-L>", function()
 						ls.expand()
@@ -69,13 +129,40 @@ return {
 		},
 		config = function()
 			local cmp = require("cmp")
+			local ls = require("luasnip")
 
 			cmp.setup({
+				enabled = function()
+					local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+					local filetype = vim.api.nvim_buf_get_option(0, "filetype")
+
+					if buftype == "prompt" or buftype == "nofile" then
+						return false
+					end
+
+					if filetype == "noice" then
+						return false
+					end
+
+					if filetype == "NvimTree" then
+						return false
+					end
+
+					local bufname = vim.api.nvim_buf_get_name(0)
+					if bufname:match("snacks") then
+						return false
+					end
+
+					return true
+				end,
+				completion = {
+					keyword_length = 1,
+				},
 				sources = {
-					{ name = "luasnip" },
-					{ name = "nvim_lsp" },
-					{ name = "path" },
-					{ name = "buffer" },
+					{ name = "luasnip",  priority = 1000 },
+					{ name = "nvim_lsp", priority = 750 },
+					{ name = "path",     priority = 250 },
+					{ name = "buffer",   priority = 500 },
 				},
 				sorting = {
 					comparators = {
@@ -93,12 +180,27 @@ return {
 					["<C-u>"] = cmp.mapping.scroll_docs(-4, { silent = true }),
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
 					["<C-d>"] = cmp.mapping.scroll_docs(4, { silent = true }),
-					["<Tab>"] = cmp.mapping.select_next_item({ silent = true }),
-					["<S-Tab>"] = cmp.mapping.select_prev_item({ silent = true }),
+					["<Tab>"] = cmp.mapping(function(fallback)
+						if ls.expand_or_jumpable() then
+							ls.expand_or_jump()
+						elseif cmp.visible() then
+							cmp.select_next_item()
+						else
+							cmp.complete()
+						end
+					end, { "i", "s" }),
+					["<S-Tab>"] = cmp.mapping(function(fallback)
+						if ls.jumpable(-1) then
+							ls.jump(-1)
+						elseif cmp.visible() then
+							cmp.select_prev_item()
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
 				}),
 				snippet = {
 					expand = function(args)
-						-- vim.snippet.expand(args.body)
 						require("luasnip").lsp_expand(args.body)
 					end,
 				},
@@ -126,15 +228,10 @@ return {
 					local opts = { buffer = event.buf }
 
 					local function goto_definition_vsplit()
-						-- Save the current window
 						local current_win = vim.api.nvim_get_current_win()
-						-- Open a vertical split
 						vim.cmd('vsplit')
-						-- Get the new window
 						local new_win = vim.api.nvim_get_current_win()
-						-- Perform the LSP go-to-definition
 						vim.lsp.buf.definition()
-						-- Ensure focus stays in the new window (optional)
 						vim.api.nvim_set_current_win(new_win)
 					end
 
@@ -153,7 +250,6 @@ return {
 			})
 
 			require("mason-lspconfig").setup({
-				-- Disable for NixOS
 				automatic_installation = true,
 				ensure_installed = {},
 				handlers = {
