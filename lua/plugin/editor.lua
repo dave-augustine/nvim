@@ -43,8 +43,19 @@ return {
 	},
 	{
 		"theprimeagen/harpoon",
+		branch = "harpoon2",
 		event = "VeryLazy",
 		dependencies = { "nvim-lua/plenary.nvim" },
+		confg = function()
+			require("harpoon"):setup({
+				global = {},
+				project = {
+					get_root_dir = function()
+						return vim.loop.cwd()
+					end
+				}
+			})
+		end
 	},
 	{
 		"folke/todo-comments.nvim",
@@ -378,5 +389,15 @@ return {
 			vim.g.vimtex_indent_on_ampersands = 0
 			vim.g.matchup_override_vimtex = 1
 		end
+	},
+	{
+		"pwntester/octo.nvim",
+		cmd = "Octo",
+		opts = {
+			picker = "snacks"
+		},
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		}
 	}
 }

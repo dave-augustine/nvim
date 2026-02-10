@@ -23,7 +23,7 @@ keyset("v", "<]a>", "g<C-a>", { noremap = true, silent = true })
 keyset("n", "<leader>sr", ":%s/<C-r><C-w>//g<Left><Left>")
 
 -- snacks
-keyset("n", "<leader>ff", function() Snacks.picker.files({ hidden = true }) end, { silent = true })
+keyset("n", "<leader>ff", function() Snacks.picker.files({}) end, { silent = true })
 keyset("n", "<leader>fk", function() Snacks.picker.keymaps() end, { silent = true })
 keyset("n", "<leader>fl", function() Snacks.picker.grep() end, { silent = true })
 keyset("n", "<leader>fm", function() Snacks.picker.man() end, { silent = true })

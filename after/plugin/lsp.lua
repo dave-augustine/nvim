@@ -1,6 +1,12 @@
+vim.lsp.config('clangd', {
+	cmd = { "clangd", "--compile-commands-dir=" .. vim.fn.getcwd() },
+	capabilities = require("cmp_nvim_lsp").default_capabilities(),
+})
+vim.lsp.enable('clangd')
+--
 -- For NixOS
 
--- require("lspconfig").lua_ls.setup({
+-- vim.lsp.config.lua_ls({
 -- 	cmd = { "lua-language-server" },
 -- 	settings = {
 -- 		Lua = {
@@ -10,12 +16,12 @@
 -- 	},
 -- })
 --
--- require("lspconfig").jdtls.setup({
+-- vim.lsp.config.jdtls({
 -- 	cmd = { "jdtls" },
 -- })
 
 --
--- require'lspconfig'.nil_ls.setup {
+-- vim.lsp.config.nil_ls({
 --   settings = {
 --     ['nil'] = {
 --       formatting = {
@@ -23,5 +29,5 @@
 --       }
 --     }
 --   }
--- }
+-- })
 --

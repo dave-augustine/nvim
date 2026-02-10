@@ -198,6 +198,8 @@ return {
 							fallback()
 						end
 					end, { "i", "s" }),
+					["<C-j>"] = cmp.mapping.select_next_item({ silent = true }),
+					["<C-k>"] = cmp.mapping.select_prev_item({ silent = true }),
 				}),
 				snippet = {
 					expand = function(args)
@@ -216,11 +218,7 @@ return {
 		cmd = { "LspInfo", "LspInstall", "LspStart" },
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
-			local lsp_defaults = require("lspconfig").util.default_config
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-			lsp_defaults.capabilities =
-					vim.tbl_deep_extend("force", lsp_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities())
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				desc = "LSP actions",
@@ -254,14 +252,15 @@ return {
 				ensure_installed = {},
 				handlers = {
 					function(server_name)
-						require("lspconfig")[server_name].setup({
+						vim.lsp.config(server_name, {
 							capabilities = capabilities,
 						})
+						vim.lsp.enable(server_name)
 					end,
 				},
 			})
 
-			require("lspconfig").eslint.setup({
+			vim.lsp.config('eslint', {
 				on_attach = function(client, bufnr)
 					vim.api.nvim_create_autocmd("BufWritePre", {
 						buffer = bufnr,
@@ -272,6 +271,7 @@ return {
 					workingDirectory = { mode = "auto" },
 				},
 			})
+			vim.lsp.enable('eslint')
 		end,
 	},
 	{
@@ -290,4 +290,7 @@ return {
 			}
 		},
 	},
+	{
+		"nvim-java/nvim-java",
+	}
 }
