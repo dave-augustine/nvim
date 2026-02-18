@@ -369,8 +369,23 @@ return {
 		opts = {
 			lazygit = {},
 			terminal = {},
-			picker = {},
-		}
+			picker = {
+				win = {
+					input = {
+						keys = {
+							["<M-h>"] = false,
+							["<M-.>"] = "toggle_hidden",
+						},
+					},
+					list = {
+						keys = {
+							["<M-h>"] = false,
+							["<M-.>"] = "toggle_hidden",
+						},
+					},
+				},
+			},
+		},
 	},
 	{
 		"lervag/vimtex",
