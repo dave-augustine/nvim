@@ -264,7 +264,14 @@ return {
 				on_attach = function(client, bufnr)
 					vim.api.nvim_create_autocmd("BufWritePre", {
 						buffer = bufnr,
-						command = "EslintFixAll",
+						callback = function()
+							-- Use code action to fix all issues
+							local params = {
+								command = "eslint.applyAllFixes",
+								arguments = { vim.uri_from_bufnr(bufnr) },
+							}
+							vim.lsp.buf.execute_command(params)
+						end,
 					})
 				end,
 				settings = {

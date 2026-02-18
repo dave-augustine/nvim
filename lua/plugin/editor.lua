@@ -42,20 +42,12 @@ return {
 		end
 	},
 	{
-		"theprimeagen/harpoon",
-		branch = "harpoon2",
+		"cbochs/grapple.nvim",
 		event = "VeryLazy",
 		dependencies = { "nvim-lua/plenary.nvim" },
-		confg = function()
-			require("harpoon"):setup({
-				global = {},
-				project = {
-					get_root_dir = function()
-						return vim.loop.cwd()
-					end
-				}
-			})
-		end
+		opts = {
+			scope = "git_branch", -- Default to git_branch scope
+		}
 	},
 	{
 		"folke/todo-comments.nvim",
