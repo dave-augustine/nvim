@@ -1,7 +1,9 @@
-function ColorCanvas(color)
+function ColorCanvas(color, transparent)
 	if color then
 		vim.cmd("colorscheme " .. color)
 	end
+
+	if transparent == nil then transparent = true end
 
 	local highlight_groups = {
 		"Normal", "NormalFloat", "NormalNC",
@@ -20,12 +22,14 @@ function ColorCanvas(color)
 		"DiagnosticVirtualTextInfo", "DiagnosticVirtualTextHint", "DiagnosticVirtualTextOk"
 	}
 
-	for _, group in ipairs(diagnostic_groups) do
-		vim.cmd("highlight " .. group .. " guibg=NONE")
-	end
+	if transparent then
+		for _, group in ipairs(diagnostic_groups) do
+			vim.cmd("highlight " .. group .. " guibg=NONE")
+		end
 
-	for _, group in ipairs(highlight_groups) do
-		vim.api.nvim_set_hl(0, group, { bg = "none" })
+		for _, group in ipairs(highlight_groups) do
+			vim.api.nvim_set_hl(0, group, { bg = "none" })
+		end
 	end
 
 
@@ -34,4 +38,4 @@ function ColorCanvas(color)
 	vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", { underline = true, sp = "#808080" })
 end
 
-ColorCanvas("rose-pine")
+ColorCanvas("vscode", false)

@@ -406,5 +406,33 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		}
+	},
+	{
+		"coder/claudecode.nvim",
+		dependencies = { "folke/snacks.nvim" },
+		opts = {
+			terminal_cmd = "~/.local/bin/claude"
+		},
+		config = true,
+		keys = {
+			{ "<localleader>a",  nil,                              desc = "AI/Claude Code" },
+			{ "<localleader>ac", "<cmd>ClaudeCode<cr>",            desc = "Toggle Claude" },
+			{ "<localleader>af", "<cmd>ClaudeCodeFocus<cr>",       desc = "Focus Claude" },
+			{ "<localleader>aw", "<C-w>p",                         desc = "Return to editor" },
+			{ "<localleader>ar", "<cmd>ClaudeCode --resume<cr>",   desc = "Resume Claude" },
+			{ "<localleader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+			{ "<localleader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+			{ "<localleader>ab", "<cmd>ClaudeCodeAdd %<cr>",       desc = "Add current buffer" },
+			{ "<localleader>as", "<cmd>ClaudeCodeSend<cr>",        mode = "v",                  desc = "Send to Claude" },
+			{
+				"<localleader>as",
+				"<cmd>ClaudeCodeTreeAdd<cr>",
+				desc = "Add file",
+				ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
+			},
+			-- Diff management
+			{ "<localleader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+			{ "<localleader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",   desc = "Deny diff" },
+		},
 	}
 }
