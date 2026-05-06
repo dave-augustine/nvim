@@ -3,6 +3,8 @@ function ColorCanvas(color, transparent)
 		vim.cmd("colorscheme " .. color)
 	end
 
+	require("custom_hl")
+
 	if transparent == nil then transparent = true end
 
 	local highlight_groups = {
@@ -32,10 +34,9 @@ function ColorCanvas(color, transparent)
 		end
 	end
 
-
 	vim.api.nvim_set_hl(0, "NotifyBackground", { bg = "#000000" })
 	vim.api.nvim_set_hl(0, "TreesitterContextBottom", { underline = true, sp = "#808080" })
 	vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", { underline = true, sp = "#808080" })
 end
 
-ColorCanvas("vscode", false)
+ColorCanvas("onedark", true)
