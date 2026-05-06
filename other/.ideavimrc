@@ -24,6 +24,7 @@ nnoremap <leader>j <C-w>j
 
 nnoremap [[ <Action>(MethodUp)
 nnoremap ]] <Action>(MethodDown)
+nnoremap S :w<CR>
 
 vnoremap < <gv
 vnoremap > >gv
